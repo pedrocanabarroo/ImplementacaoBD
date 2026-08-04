@@ -30,3 +30,27 @@
     SAVEPOINT: Cria um ponto de restauração dentro de uma transação.
     ROLLBACK: Desfaz alterações de uma transação, retornando ao último SAVEPOINT ou ao início da transação.
     COMMIT: Confirma as alterações realizadas na transação, tornando-as permanentes no banco de dados.
+
+
+  Exercício da biblioteca
+
+    CREATE DATABASE biblioteca;
+    
+    USE biblioteca;
+    
+    CREATE TABLE autor(
+        id int PRIMARY KEY auto_increment,
+        nome varchar(50) NOT NULL,
+        nacionalidade varchar(20)
+    );
+        
+    CREATE TABLE livro (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        titulo VARCHAR(255) NOT NULL,
+        ano_publicacao YEAR,
+        fk_id_autor INT,
+        FOREIGN KEY (fk_id_autor) REFERENCES autor(id)
+    );
+
+
+  <img width="442" height="233" alt="{4E9082C6-A60F-4D5A-92FE-6C75DE3C7F12}" src="https://github.com/user-attachments/assets/65488992-ecbc-49e1-bdff-40f407f4d6bd" />
