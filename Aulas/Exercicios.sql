@@ -164,3 +164,75 @@ BEGIN
     PRINT 'Disciplina cadastrada com sucesso.';
 END;
 GO
+
+
+-- exercícios de transactions
+-- 1.
+	
+-- INSERT 1: modo autocommit
+INSERT INTO DEPARTAMENTO (nome)
+VALUES ('Financeiro');
+
+-- Conferir o primeiro INSERT
+SELECT *
+FROM DEPARTAMENTO
+WHERE nome = 'Financeiro';
+
+-- INSERT 2: transação explícita
+BEGIN TRANSACTION;
+
+INSERT INTO DEPARTAMENTO (nome)
+VALUES ('Recursos Humanos');
+
+-- Desfazer o segundo INSERT
+ROLLBACK TRANSACTION;
+
+-- Conferir o resultado final
+SELECT *
+FROM DEPARTAMENTO
+WHERE nome IN ('Financeiro', 'Recursos Humanos');
+
+
+-- 2
+BEGIN TRANSACTION;
+
+-- Primeiro INSERT
+INSERT INTO DEPARTAMENTO (nome)
+VALUES ('Compras');
+
+-- Criar o SAVEPOINT
+SAVE TRANSACTION ponto_salvamento;
+
+-- Segundo INSERT
+INSERT INTO DEPARTAMENTO (nome)
+VALUES ('Logística');
+
+-- Conferir os dois registros antes do rollback
+SELECT *
+FROM DEPARTAMENTO
+WHERE nome IN ('Compras', 'Logística');
+
+-- Voltar ao SAVEPOINT
+ROLLBACK TRANSACTION ponto_salvamento;
+
+-- Confirmar a transação
+COMMIT TRANSACTION;
+
+-- Conferir o resultado final
+SELECT *
+FROM DEPARTAMENTO
+WHERE nome IN ('Compras', 'Logística');
+
+-- 3
+-- Iniciar a transação
+BEGIN TRANSACTION;
+
+-- Atualizar o endereço do funcionário
+UPDATE FUNCIONARIO
+SET endereco = 'Rua Nova, 100'
+WHERE id_funcionario = 1;
+
+-- Conferir a alteração antes da decisão
+SELECT id_funcionario, endereco
+FROM FUNCIONARIO
+WHERE id_funcionario = 1;
